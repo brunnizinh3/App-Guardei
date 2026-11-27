@@ -1,0 +1,53 @@
+/* ==========================================================================
+   GUARDEI — SISTEMA DE TEMA (CLARO E ESCURO AUTOMÁTICO)
+   Usa variáveis CSS (:root) para adaptar toda a interface ao sistema do usuário.
+   ========================================================================== */
+
+:root {
+  /* Cores principais (Identidade Clean & Moderno) */
+  --cor-primaria: #2563EB;        /* Azul-índigo vibrante para ações principais */
+  --cor-primaria-hover: #1D4ED8;  /* Tom mais escuro ao tocar/passar o mouse */
+  --cor-primaria-suave: #EFF6FF;  /* Fundo leve para chips ativos e destaques */
+
+  /* Superfícies e fundos (Modo Claro — padrão) */
+  --bg-app: #F8FAFC;              /* Fundo geral da tela (cinza-gelo muito leve) */
+  --bg-card: #FFFFFF;             /* Fundo dos cartões e modais */
+  --bg-input: #F1F5F9;            /* Fundo de campos de texto e busca */
+
+  /* Textos e hierarquia */
+  --texto-principal: #0F172A;     /* Títulos e conteúdos principais */
+  --texto-secundario: #475569;    /* Descrições e prévias */
+  --texto-discreto: #94A3B8;      /* Datas, placeholders e rótulos leves */
+
+  /* Bordas, sombras e estados */
+  --borda-sutil: #E2E8F0;
+  --sombra-card: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --cor-favorito: #F59E0B;        /* Amarelo-âmbar para estrela de favorito */
+  --cor-perigo: #DC2626;          /* Vermelho para exclusão */
+
+  /* Espaçamentos e arredondamentos padronizados */
+  --raio-card: 14px;
+  --raio-input: 12px;
+  --raio-chip: 999px;
+  --altura-nav: 68px;
+}
+
+/* Adaptação automática quando o celular/computador está em Modo Escuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cor-primaria: #3B82F6;
+    --cor-primaria-hover: #60A5FA;
+    --cor-primaria-suave: rgba(59, 130, 246, 0.16);
+
+    --bg-app: #0B1120;            /* Fundo escuro profundo e confortável */
+    --bg-card: #1E293B;           /* Cartões com contraste suave */
+    --bg-input: #0F172A;          /* Campos de entrada */
+
+    --texto-principal: #F8FAFC;
+    --texto-secundario: #CBD5E1;
+    --texto-discreto: #64748B;
+
+    --borda-sutil: #334155;
+    --sombra-card: 0 2px 6px rgba(0, 0, 0, 0.35);
+  }
+}
