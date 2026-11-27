@@ -1,0 +1,622 @@
+/* ==========================================================================
+   GUARDEI — LAYOUT E COMPONENTES (MOBILE-FIRST)
+   Usa as variáveis definidas em theme.css para manter consistência e suporte
+   automático aos modos claro e escuro.
+   ========================================================================== */
+
+/* 1. Reset básico e tipografia */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Garante que o atributo HTML [hidden] sempre funcione, mesmo com display flex/grid */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--texto-principal);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+/* ==========================================================================
+   2. TELA DE LOGIN
+   ========================================================================== */
+.tela-centralizada {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--borda-sutil);
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  box-shadow: var(--sombra-card);
+}
+
+.logo-marca {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--cor-primaria);
+  margin-bottom: 12px;
+}
+
+.slogan {
+  color: var(--texto-secundario);
+  font-size: 0.95rem;
+  margin-bottom: 28px;
+}
+
+.texto-erro {
+  color: var(--cor-perigo);
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+/* ==========================================================================
+   3. ESTRUTURA PRINCIPAL DO APP (CONTAINER MOBILE-FIRST)
+   ========================================================================== */
+#app-principal {
+  max-width: 600px; /* Mantém proporção confortável de app mesmo em telas grandes */
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(var(--altura-nav) + 24px); /* Evita que a barra inferior cubra o último card */
+}
+
+/* Cabeçalho fixo no topo */
+.topo-fixo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--bg-app);
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--borda-sutil);
+}
+
+.topo-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.titulo-app {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--texto-principal);
+}
+
+.badge-discreto {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--texto-secundario);
+  background-color: var(--bg-input);
+  padding: 4px 10px;
+  border-radius: var(--raio-chip);
+}
+
+/* Barra de busca integrada */
+.campo-busca-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#input-busca {
+  width: 100%;
+  background-color: var(--bg-input);
+  color: var(--texto-principal);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-input);
+  padding: 10px 36px 10px 14px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#input-busca:focus {
+  border-color: var(--cor-primaria);
+}
+
+#btn-limpar-busca {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--texto-discreto);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ==========================================================================
+   4. CONTEÚDO DAS ABAS E CAPTURA ULTRA-RÁPIDA
+   ========================================================================== */
+.conteudo-principal {
+  flex: 1;
+  padding: 16px;
+}
+
+.subtitulo-secao {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--texto-secundario);
+  margin: 20px 0 12px;
+}
+
+/* Caixa de captura rápida na aba Início */
+.card-captura-rapida {
+  background-color: var(--bg-card);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-card);
+  padding: 12px;
+  box-shadow: var(--sombra-card);
+}
+
+#input-rapido {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--texto-principal);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: none;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+#input-rapido::placeholder {
+  color: var(--texto-discreto);
+}
+
+.acoes-captura-rapida {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--borda-sutil);
+}
+
+/* ==========================================================================
+   5. BOTÕES E FORMULÁRIOS PADRONIZADOS
+   ========================================================================== */
+.btn-primario,
+.btn-secundario,
+.btn-perigo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border-radius: var(--raio-input);
+  padding: 11px 16px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.btn-primario:active,
+.btn-secundario:active,
+.btn-perigo:active {
+  transform: scale(0.98);
+}
+
+.btn-primario {
+  background-color: var(--cor-primaria);
+  color: #FFFFFF;
+}
+
+.btn-primario:hover {
+  background-color: var(--cor-primaria-hover);
+}
+
+.btn-secundario {
+  background-color: var(--bg-input);
+  color: var(--texto-principal);
+  border: 1px solid var(--borda-sutil);
+}
+
+.btn-perigo {
+  background-color: rgba(220, 38, 38, 0.12);
+  color: var(--cor-perigo);
+}
+
+.btn-largo {
+  width: 100%;
+}
+
+.btn-compacto {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+}
+
+.btn-icone {
+  background: var(--bg-input);
+  border: 1px solid var(--borda-sutil);
+  color: var(--texto-principal);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   6. CARROSSEL DE CATEGORIAS (ABA COLEÇÃO)
+   ========================================================================== */
+.carrossel-categorias {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  scrollbar-width: none; /* Oculta barra de rolagem no Firefox */
+}
+
+.carrossel-categorias::-webkit-scrollbar {
+  display: none; /* Oculta barra de rolagem no Chrome/Safari */
+}
+
+.chip-categoria {
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+  color: var(--texto-secundario);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-chip);
+  padding: 6px 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip-categoria.ativo {
+  background-color: var(--cor-primaria);
+  color: #FFFFFF;
+  border-color: var(--cor-primaria);
+}
+
+/* ==========================================================================
+   7. CARDS DOS ITENS GUARDADOS
+   ========================================================================== */
+.lista-itens {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-card);
+  padding: 14px;
+  box-shadow: var(--sombra-card);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.card-item:hover {
+  border-color: var(--cor-primaria);
+}
+
+/* Miniatura quando o item é uma imagem */
+.card-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--bg-input);
+}
+
+/* Ícone quando o item é texto ou link */
+.card-icone-tipo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: var(--cor-primaria-suave);
+  color: var(--cor-primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.card-corpo {
+  flex: 1;
+  min-width: 0; /* Permite truncar textos longos sem estourar o card */
+}
+
+.card-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.card-titulo {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--texto-principal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-estrela {
+  color: var(--cor-favorito);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.card-previa {
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita a prévia a no máximo 2 linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.card-rodape {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag-categoria {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  background-color: var(--cor-primaria-suave);
+  padding: 2px 8px;
+  border-radius: var(--raio-chip);
+}
+
+.card-data {
+  font-size: 0.74rem;
+  color: var(--texto-discreto);
+}
+
+/* Estado vazio quando não há itens ou busca sem resultado */
+.estado-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--texto-discreto);
+  font-size: 0.92rem;
+}
+
+/* Card simples da aba Configurações */
+.card-info {
+  background-color: var(--bg-card);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-card);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.rotulo-pequeno {
+  font-size: 0.8rem;
+  color: var(--texto-discreto);
+}
+
+.valor-destaque {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   8. BARRA DE NAVEGAÇÃO INFERIOR + BOTÃO CENTRAL "+"
+   ========================================================================== */
+.nav-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  height: var(--altura-nav);
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--borda-sutil);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px env(safe-area-inset-bottom);
+  z-index: 30;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--texto-discreto);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.nav-item.ativo {
+  color: var(--cor-primaria);
+}
+
+/* Botão flutuante central "+" */
+.nav-fab {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--cor-primaria);
+  color: #FFFFFF;
+  border: none;
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: -18px; /* Eleva levemente o botão acima da barra */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.nav-fab:active {
+  transform: scale(0.94);
+}
+
+/* ==========================================================================
+   9. MODAIS (<dialog>) DE CAPTURA E DETALHES/EDIÇÃO
+   ========================================================================== */
+.modal-gaveta {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  border: 1px solid var(--borda-sutil);
+  border-radius: 20px;
+  background-color: var(--bg-card);
+  color: var(--texto-principal);
+  padding: 20px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.modal-gaveta::backdrop {
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.modal-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modal-acoes-topo {
+  display: flex;
+  gap: 8px;
+}
+
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texto-secundario);
+}
+
+.campo-grupo input[type="text"],
+.campo-grupo textarea,
+.campo-grupo select {
+  width: 100%;
+  background-color: var(--bg-input);
+  color: var(--texto-principal);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-input);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.94rem;
+  outline: none;
+}
+
+.campo-grupo input:focus,
+.campo-grupo textarea:focus,
+.campo-grupo select:focus {
+  border-color: var(--cor-primaria);
+}
+
+/* Bloco recolhível de campos opcionais no modal de captura */
+.detalhes-opcionais {
+  background-color: var(--bg-app);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-input);
+  padding: 10px 12px;
+  margin-bottom: 16px;
+}
+
+.detalhes-opcionais summary {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  cursor: pointer;
+  list-style: none;
+}
+
+.detalhes-opcionais[open] summary {
+  margin-bottom: 12px;
+}
+
+/* Visualização do conteúdo dentro do modal de detalhes */
+.detalhe-preview {
+  background-color: var(--bg-app);
+  border: 1px solid var(--borda-sutil);
+  border-radius: var(--raio-input);
+  padding: 12px;
+  margin-bottom: 12px;
+  max-height: 240px;
+  overflow-y: auto;
+  word-break: break-word;
+  font-size: 0.94rem;
+}
+
+.detalhe-preview img {
+  width: 100%;
+  max-height: 210px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+.acoes-rapidas-detalhe {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.acoes-rapidas-detalhe > * {
+  flex: 1;
+}
+
+.rodape-edicao {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
