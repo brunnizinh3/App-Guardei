@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563EB" />
+  <title>Guardei</title>
+
+  <!-- Manifesto PWA e ícone -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
+
+  <!-- Folhas de estilo (tema primeiro, layout depois) -->
+  <link rel="stylesheet" href="./css/theme.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. TELA DE AUTENTICAÇÃO (Exibida apenas quando o usuário não está logado)
+       ====================================================================== -->
+  <section id="tela-login" class="tela-centralizada">
+    <div class="login-card">
+      <div class="logo-marca">Guardei</div>
+      <p class="slogan">Você não precisa lembrar onde guardou. Só precisa lembrar que guardou.</p>
+
+      <button id="btn-login-google" class="btn-primario btn-largo" type="button">
+        Entrar com Google
+      </button>
+
+      <p id="login-feedback" class="texto-erro" hidden></p>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       2. APLICATIVO PRINCIPAL (Exibido após login)
+       ====================================================================== -->
+  <div id="app-principal" hidden>
+
+    <!-- Cabeçalho fixo com marca e busca instantânea integrada -->
+    <header class="topo-fixo">
+      <div class="topo-linha">
+        <h1 class="titulo-app">Guardei</h1>
+        <span id="contador-total" class="badge-discreto">0 itens</span>
+      </div>
+
+      <!-- Barra de busca presente no Início e na Coleção -->
+      <div id="container-busca" class="campo-busca-wrapper">
+        <input
+          type="search"
+          id="input-busca"
+          placeholder="Buscar por palavra, link, categoria ou tag..."
+          autocomplete="off"
+        />
+        <button id="btn-limpar-busca" type="button" aria-label="Limpar busca" hidden>✕</button>
+      </div>
+    </header>
+
+    <!-- Área dinâmica das abas -->
+    <main class="conteudo-principal">
+
+      <!-- ABA 1: INÍCIO (Captura ultra-rápida + Últimos guardados) -->
+      <section id="aba-inicio" class="aba ativa">
+        <!-- Caixa de captura imediata sem precisar abrir modal -->
+        <form id="form-captura-rapida" class="card-captura-rapida">
+          <textarea
+            id="input-rapido"
+            rows="2"
+            placeholder="Cole um link, escreva uma ideia ou anote algo rápido..."
+          ></textarea>
+
+          <div class="acoes-captura-rapida">
+            <label for="input-imagem-rapida" class="btn-secundario btn-compacto">
+              📷 Foto / Print
+            </label>
+            <input type="file" id="input-imagem-rapida" accept="image/*" hidden />
+
+            <button type="submit" class="btn-primario btn-compacto">
+              Guardar
+            </button>
+          </div>
+        </form>
+
+        <h2 class="subtitulo-secao">Guardados recentemente</h2>
+        <div id="lista-recentes" class="lista-itens"></div>
+      </section>
+
+      <!-- ABA 2: COLEÇÃO (Filtro das 8 categorias + Acervo completo) -->
+      <section id="aba-colecao" class="aba" hidden>
+        <div id="barra-categorias" class="carrossel-categorias" role="tablist">
+          <button class="chip-categoria ativo" data-categoria="Todas" type="button">Todas</button>
+          <button class="chip-categoria" data-categoria="Compras" type="button">Compras</button>
+          <button class="chip-categoria" data-categoria="Ideias" type="button">Ideias</button>
+          <button class="chip-categoria" data-categoria="Receitas" type="button">Receitas</button>
+          <button class="chip-categoria" data-categoria="Lugares" type="button">Lugares</button>
+          <button class="chip-categoria" data-categoria="Estudos" type="button">Estudos</button>
+          <button class="chip-categoria" data-categoria="Documentos" type="button">Documentos</button>
+          <button class="chip-categoria" data-categoria="Referências" type="button">Referências</button>
+          <button class="chip-categoria" data-categoria="Outros" type="button">Outros</button>
+        </div>
+
+        <div id="lista-colecao" class="lista-itens"></div>
+      </section>
+
+      <!-- ABA 3: FAVORITOS -->
+      <section id="aba-favoritos" class="aba" hidden>
+        <h2 class="subtitulo-secao">Seus favoritos</h2>
+        <div id="lista-favoritos" class="lista-itens"></div>
+      </section>
+
+      <!-- ABA 4: CONFIGURAÇÕES -->
+      <section id="aba-config" class="aba" hidden>
+        <h2 class="subtitulo-secao">Conta e aplicativo</h2>
+        <div class="card-info">
+          <p class="rotulo-pequeno">Conectado como</p>
+          <p id="usuario-email" class="valor-destaque">—</p>
+        </div>
+
+        <button id="btn-logout" class="btn-perigo btn-largo" type="button">
+          Sair da conta
+        </button>
+      </section>
+
+    </main>
+
+    <!-- Barra de navegação inferior (4 abas + botão central "+") -->
+    <nav class="nav-inferior" aria-label="Navegação principal">
+      <button class="nav-item ativo" data-alvo="aba-inicio" type="button">Início</button>
+      <button class="nav-item" data-alvo="aba-colecao" type="button">Coleção</button>
+
+      <button id="btn-abrir-modal-novo" class="nav-fab" type="button" aria-label="Guardar novo item">
+        +
+      </button>
+
+      <button class="nav-item" data-alvo="aba-favoritos" type="button">Favoritos</button>
+      <button class="nav-item" data-alvo="aba-config" type="button">Config</button>
+    </nav>
+  </div>
+
+  <!-- ======================================================================
+       3. MODAL DE CAPTURA DETALHADA (Botão "+" ou Compartilhamento Externo)
+       ====================================================================== -->
+  <dialog id="modal-novo" class="modal-gaveta">
+    <form id="form-modal-novo" method="dialog">
+      <div class="modal-topo">
+        <h3>Guardar algo</h3>
+        <button type="button" id="btn-fechar-modal-novo" class="btn-icone">✕</button>
+      </div>
+
+      <label class="campo-grupo">
+        <span>Texto ou Link</span>
+        <textarea id="novo-conteudo" rows="3" placeholder="Cole um link ou digite sua nota..."></textarea>
+      </label>
+
+      <label class="campo-grupo">
+        <span>Ou escolha uma imagem / print</span>
+        <input type="file" id="novo-imagem" accept="image/*" />
+      </label>
+
+      <!-- Campos opcionais (não bloqueiam o salvamento rápido) -->
+      <details class="detalhes-opcionais">
+        <summary>Adicionar título, categoria ou tags (opcional)</summary>
+
+        <label class="campo-grupo">
+          <span>Título</span>
+          <input type="text" id="novo-titulo" placeholder="Ex.: Tênis de corrida" />
+        </label>
+
+        <label class="campo-grupo">
+          <span>Categoria</span>
+          <select id="novo-categoria">
+            <option value="Outros" selected>Outros</option>
+            <option value="Compras">Compras</option>
+            <option value="Ideias">Ideias</option>
+            <option value="Receitas">Receitas</option>
+            <option value="Lugares">Lugares</option>
+            <option value="Estudos">Estudos</option>
+            <option value="Documentos">Documentos</option>
+            <option value="Referências">Referências</option>
+          </select>
+        </label>
+
+        <label class="campo-grupo">
+          <span>Descrição</span>
+          <input type="text" id="novo-descricao" placeholder="Alguma observação para lembrar depois..." />
+        </label>
+
+        <label class="campo-grupo">
+          <span>Tags (separadas por vírgula)</span>
+          <input type="text" id="novo-tags" placeholder="ex: promoção, presente, ideia" />
+        </label>
+      </details>
+
+      <button type="submit" id="btn-salvar-modal" class="btn-primario btn-largo">
+        Guardar agora
+      </button>
+    </form>
+  </dialog>
+
+  <!-- ======================================================================
+       4. MODAL DE DETALHES E EDIÇÃO DE UM ITEM GUARDADO
+       ====================================================================== -->
+  <dialog id="modal-detalhes" class="modal-gaveta">
+    <div class="modal-topo">
+      <span id="detalhe-tipo-badge" class="badge-discreto">Tipo</span>
+      <div class="modal-acoes-topo">
+        <button type="button" id="btn-favoritar-detalhe" class="btn-icone" aria-label="Favoritar">☆</button>
+        <button type="button" id="btn-fechar-detalhes" class="btn-icone" aria-label="Fechar">✕</button>
+      </div>
+    </div>
+
+    <!-- Visualização do conteúdo (imagem, link ou texto) -->
+    <div id="detalhe-preview" class="detalhe-preview"></div>
+
+    <div class="acoes-rapidas-detalhe">
+      <button type="button" id="btn-copiar-conteudo" class="btn-secundario">Copiar</button>
+      <a id="btn-abrir-link" class="btn-secundario" target="_blank" rel="noopener noreferrer" hidden>
+        Abrir link
+      </a>
+    </div>
+
+    <!-- Formulário de edição direta -->
+    <form id="form-editar-item">
+      <input type="hidden" id="editar-id" />
+
+      <label class="campo-grupo">
+        <span>Título</span>
+        <input type="text" id="editar-titulo" />
+      </label>
+
+      <label class="campo-grupo">
+        <span>Categoria</span>
+        <select id="editar-categoria">
+          <option value="Outros">Outros</option>
+          <option value="Compras">Compras</option>
+          <option value="Ideias">Ideias</option>
+          <option value="Receitas">Receitas</option>
+          <option value="Lugares">Lugares</option>
+          <option value="Estudos">Estudos</option>
+          <option value="Documentos">Documentos</option>
+          <option value="Referências">Referências</option>
+        </select>
+      </label>
+
+      <label class="campo-grupo">
+        <span>Descrição</span>
+        <textarea id="editar-descricao" rows="2"></textarea>
+      </label>
+
+      <label class="campo-grupo">
+        <span>Tags (separadas por vírgula)</span>
+        <input type="text" id="editar-tags" />
+      </label>
+
+      <div class="rodape-edicao">
+        <button type="button" id="btn-excluir-item" class="btn-perigo">Excluir</button>
+        <button type="submit" class="btn-primario">Salvar alterações</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Biblioteca oficial do Supabase via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Módulos JavaScript do Guardei (carregados como ES Modules) -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
